@@ -66,3 +66,23 @@ test "create/destroy" {
     defer std.heap.page_allocator.destroy(byte);
     byte.* = 128;
 }
+
+
+
+test "arrayList" {
+     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    defer arena.deinit(); // free all
+    const allocator = arena.allocator();
+
+
+    var List = std.ArrayList(i32).init(allocator);
+    defer List.deinit();
+    try List.append(1);
+   try List.append(2);
+    try List.append(3);
+    try List.append(4);
+    for(List.items) |val|{
+        
+     std.log.info("{any}", .{val});
+    }
+}
